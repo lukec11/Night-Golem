@@ -4,13 +4,23 @@ const wc = new WebClient(process.env.SLACK_TOKEN)
 const { createEventAdapter } = require('@slack/events-api');
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
-
-//init vars
-
+/**
+ * Checks whether $n is between $start and $end, inclusive.
+ * @param {int} n 
+ * @param {int} start 
+ * @param {int} end 
+ */
 const inRange = (n, start, end) => {
     return ((n-start)*(n-end) <= 0);
 }
 
+/**
+ * Sets the time of $date with the values of $hours, $minutes, and $seconds
+ * @param {Date} date 
+ * @param {int} hours 
+ * @param {int} minutes 
+ * @param {int} seconds 
+ */
 const setTime = (date, hours, minutes, seconds) => {
     date.setHours(hours);
     date.setMinutes(minutes);
@@ -24,6 +34,7 @@ const setTime = (date, hours, minutes, seconds) => {
 const getSeconds = (ts) => {
     return (ts.getTime() / 1000).toFixed(0);
 }
+
 /**
  * Gathers the date of the next hack night.
  */
