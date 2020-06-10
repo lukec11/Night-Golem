@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const { WebClient } = require('@slack/web-api');
 const wc = new WebClient(process.env.SLACK_TOKEN)
 
@@ -65,7 +63,7 @@ slackEvents.on('message', event => {
     if (event.text.includes('next hack night')) {
         const nextHackNight = nextDate();
         const message = `The next Hack Night is <!date^${nextHackNight}^{date_short_pretty}|date> at <!date^${nextHackNight}^{time}|time> local time!`
-        sendPublicReply(event, nextHackNight)
+        sendPublicReply(event, message)
     }
 })
 
