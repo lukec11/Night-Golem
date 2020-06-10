@@ -34,11 +34,11 @@ const nextDate = () => {
     // Checks which hack night is the next one. This code looks obfuscated, but rest assured - it's just bad.
     if (inRange(today, 0, 3)) {
         d.setDate(d.getDate() + ((7-d.getDay())%7+3) % 7); //sets to the date of the next wednesday
-        setTime(d, 15, 30, 0);
+        setTime(d, 19, 30, 0);
     }
     else if (inRange(today, 4, 6)) {
        d.setDate(d.getDate() + ((7-d.getDay())%7+6) % 7); //sets to the date of the next saturday
-       setTime(d, 18, 0, 0)
+       setTime(d, 22, 0, 0)
     }
     return getSeconds(d);
 }
