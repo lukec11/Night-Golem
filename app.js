@@ -6,9 +6,9 @@ const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
 /**
  * Checks whether $n is between $start and $end, inclusive.
- * @param {int} n 
- * @param {int} start 
- * @param {int} end 
+ * @param {int} n - number to compare
+ * @param {int} start - minimum possible value
+ * @param {int} end - maximum possible value
  */
 const inRange = (n, start, end) => {
     return ((n-start)*(n-end) <= 0);
@@ -16,7 +16,7 @@ const inRange = (n, start, end) => {
 
 /**
  * Sets the time of $date with the values of $hours, $minutes, and $seconds
- * @param {Date} date 
+ * @param {Date} date - Date to set
  * @param {int} hours 
  * @param {int} minutes 
  * @param {int} seconds 
@@ -29,7 +29,7 @@ const setTime = (date, hours, minutes, seconds) => {
 }
 /**
  * Takes a Date and returns a unix timestamp in seconds.
- * @param {Date} ts 
+ * @param {Date} ts - the Date object
  */
 const getSeconds = (ts) => {
     return (ts.getTime() / 1000).toFixed(0);
@@ -56,8 +56,8 @@ const nextDate = () => {
 
 /**
  * Sends a public reply with the content $message. 
- * @param {Event} event 
- * @param {String} message 
+ * @param {Event} event - the event recieved from slack
+ * @param {String} message - the message you wish to return to the channel
  */
 const sendPublicReply = async (event, message) => {
     await wc.chat.postMessage({
