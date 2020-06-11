@@ -49,7 +49,7 @@ const nextDate = () => {
     }
     else if (inRange(today, 4, 6)) {
        d.setDate(d.getDate() + ((7-d.getDay())%7+6) % 7); //sets to the date of the next saturday
-       setTime(d, 22, 0, 0)
+       setTime(d, 24, 0, 0)
     }
     return getSeconds(d);
 }
