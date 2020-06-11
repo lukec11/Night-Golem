@@ -73,7 +73,8 @@ const sendPublicReply = async (event, message) => {
 slackEvents.on('message', event => {
     if (event.text.includes('next hack night')) {
         const nextHackNight = nextDate();
-        const message = `The next Hack Night is <!date^${nextHackNight}^{date_short_pretty}|date> at <!date^${nextHackNight}^{time}|time> local time!`
+        const message = `The next _Hack Night_ is *<!date^${nextHackNight}^{date_short_pretty}|date>*, at *<!date^${nextHackNight}^{time}|time>* local time!`
+
         sendPublicReply(event, message)
     }
 })
