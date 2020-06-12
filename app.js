@@ -27,6 +27,7 @@ const setTime = (date, hours, minutes, seconds) => {
     date.setSeconds(seconds);
     return date;
 }
+
 /**
  * Takes a Date and returns a unix timestamp in seconds.
  * @param {Date} ts - the Date object
@@ -49,7 +50,7 @@ const nextDate = () => {
     }
     else if (inRange(today, 4, 6)) {
        d.setDate(d.getDate() + ((7-d.getDay())%7+6) % 7); //sets to the date of the next saturday
-       setTime(d, 24, 0, 0)
+       setTime(d, 24, 30, 0)
     }
     return getSeconds(d);
 }
@@ -70,6 +71,7 @@ const sendPublicReply = async (event, message) => {
 /**
  * Listens for incoming messages with the correct keyword trigger.
  */
+
 slackEvents.on('message', event => {
     if (event.text.includes('next hack night')) {
         const nextHackNight = nextDate();
