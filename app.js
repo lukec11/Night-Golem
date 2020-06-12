@@ -64,7 +64,8 @@ const sendPublicReply = async (event, message) => {
     await wc.chat.postMessage({
             channel: event.channel,
             token: process.env.SLACK_TOKEN,
-            text: message 
+            text: message,
+            thread_ts: event.ts 
         })
     }
 
