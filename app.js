@@ -4,6 +4,8 @@ const wc = new WebClient(process.env.SLACK_TOKEN)
 const { createEventAdapter } = require('@slack/events-api');
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
+const hackNightRegex = /next (h(?:e|a)?c?(?:k|c|oo(?:t|p))(?:\s|-)?ni?(?:ght|te|oo(?:p|t)))/gi
+
 /**
  * Checks whether $n is between $start and $end, inclusive.
  * @param {int} n - number to compare
@@ -74,9 +76,10 @@ const sendPublicReply = async (event, message) => {
  */
 
 slackEvents.on('message', event => {
-    if (event.text.match(/next h(?:e|a)?c?(?:k|c|oo(?:t|p))(?:\s|-)?ni?(?:ght|te|oo(?:p|t))/gi) && !event.text.includes('Have a great week')) {
+    let textMatch = event.text.match(hackNightRegex);
+    if ((textMatch) && !event.text.includes('Have a great week')) {
         const nextHackNight = nextDate();
-        const message = `The next _Hack Night_ is *<!date^${nextHackNight}^{date_short_pretty}|date>*, at *<!date^${nextHackNight}^{time}|time>* local time!`
+        const message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty}|date>*, at *<!date^${nextHackNight}^{time}|time>* local time!`
 
         sendPublicReply(event, message)
     }
