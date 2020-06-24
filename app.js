@@ -4,7 +4,7 @@ const wc = new WebClient(process.env.SLACK_TOKEN)
 const { createEventAdapter } = require('@slack/events-api');
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
-const hackNightRegex = /next (h(?:e|a|i)?c?(?:k|c|p|oo(?:t|p))(?:\s|-)?ni?u?(?:ght|te|t|oo(?:p|t)))/gi
+const hackNightRegex = /next (h(?:e|a|i)?c?(?:k|c|p|oo(?:t|p))s?(?:\s|-)?ni?u?(?:ght|te|t|oo(?:p|t)))/gi
 
 /**
  * Checks whether $n is between $start and $end, inclusive.
