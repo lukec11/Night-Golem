@@ -76,7 +76,7 @@ const sendPublicReply = async (event, message) => {
  */
 
 slackEvents.on('message', event => {
-    if (event.text.match(hackNightRegex) && !event.text.includes('Have a great week')) {
+    if (event.text.match(hackNightRegex) && !event.text.includes('improve future Hack Nights')) {
         let textMatch = hackNightRegex.exec(event.text)
         const nextHackNight = nextDate();
         const message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty}|date>*, at *<!date^${nextHackNight}^{time}|time>* local time!`
