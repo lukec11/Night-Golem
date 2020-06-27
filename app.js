@@ -86,8 +86,12 @@ const sendReaction = async (event, reaction) => {
  */
 
 slackEvents.on('message', event => {
-    if (event.bot_id.includes('B8WQV2JGY')) {
-        sendReaction(event, 'wave');
+    try {
+        if (event.bot_id.includes('B8WQV2JGY')) {
+            sendReaction(event, 'wave');
+        }
+    } catch (err) {
+        console.error(err);
     }
     if (event.text.match(hackNightRegex) && !event.text.includes('thanks for joining us at Hack Night')) {
         let textMatch = hackNightRegex.exec(event.text)
