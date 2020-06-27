@@ -71,11 +71,24 @@ const sendPublicReply = async (event, message) => {
         })
     }
 
+const sendReaction = async (event, reaction) => {
+    await wc.reactions.add({
+        token: process.env.SLACK_TOKEN,
+        channel: event.channel,
+        name: reaction,
+        timestamp: event.ts
+    })
+}
+    
+
 /**
  * Listens for incoming messages with the correct keyword trigger.
  */
 
 slackEvents.on('message', event => {
+    if (event.bot_id.includes('B8WQV2JGY')) {
+        sendReaction(event, 'wave');
+    }
     if (event.text.match(hackNightRegex) && !event.text.includes('thanks for joining us at Hack Night')) {
         let textMatch = hackNightRegex.exec(event.text)
         const nextHackNight = nextDate();
