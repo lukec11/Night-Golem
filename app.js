@@ -127,11 +127,11 @@ slackEvents.on('message', async (event) => {
 			const message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty}|date>*, at *<!date^${nextHackNight}^{time}|time>* local time!`;
 
 			await sendPublicReply(event, message);
-		} else if (event.text.match(forceTopicUpdateRegex)) {
+		} if (event.text.match(forceTopicUpdateRegex)) {
 			const nextHackNight = nextDate();
 			await setTopic(
 				process.env.HACK_NIGHT_CHANNEL,
-				`<https://hack.af/night|Join call:> <https://hack.af/night>. The next call is at *<!date^${nextHackNight}^{date_short_pretty} at {time}|date>* local time. Meet some new people, build something cool, talk about it.`
+				`<https://hack.af/night|Join call:> <https://hack.af/night>. The next call is on *<!date^${nextHackNight}^{date_short_pretty} at {time}|date>* local time. Meet some new people, build something cool, talk about it.`
 			);
 		} else if (event.text.includes('set the channel topic: ')) {
 			await deleteMessage(
