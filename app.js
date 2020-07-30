@@ -4,7 +4,7 @@ const wc = new WebClient(process.env.SLACK_TOKEN);
 const { createEventAdapter } = require('@slack/events-api');
 const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
-const hackNightRegex = /next (h(?:e|a|i|o)?c?o?(?:k|c|p|oo?(?:t|p))e?(?:s|y)?(?:\s|-)?n(?:e|i|oo?)?u?(?:k|g|c|o|t)?(?:ey|ht|ky|e|t|o(?:p|t)))/gi;
+const hackNightRegex = /next (h(?:e|a|i|o|u)?c?o?w?(?:k|c|p|oo?|u(?:t|p)?)(?:e|a)?(?:s|y|lacka)?(?:\s|-)?n(?:e|i|oo?|a)?u?(?:k|g|c|o|t)?k?a?(?:ey|ht|ky|e|t|wu|o(?:p|t)|lacka))/gi;
 const forceTopicUpdateRegex = /forceChannelUpdate/gi;
 
 /**
