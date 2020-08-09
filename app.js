@@ -120,7 +120,7 @@ slackEvents.on("message", async (event) => {
       if (event.username.includes("Night Golem")) {
         throw "OtherNightGolemError";
       }
-    } else if (event.text.includes("next ctf night")) {
+    } else if (event.text.toLowerCase().includes("next ctf night")) {
       const nextHackNight = nextDate();
       const message = `The next _ctf night_ is *<!date^${nextHackNight}^{date_short_pretty}|date>*, at *<!date^${nextHackNight}^{time}|time>* local time!`;
       await sendPublicReply(event, message);
