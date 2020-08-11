@@ -124,11 +124,6 @@ slackEvents.on("message", async (event) => {
       const nextHackNight = nextDate();
       const message = `<@${event.user}>, let's keep this space friendly.`;
       await sendPublicReply(event, message);
-      await wc.chat.postMessage({
-        token: process.env.SLACK_TOKEN,
-        channel: event.user,
-        text: `Congrats, you found the flag! hc{n3xt-h4ck-n1g4t-905}`,
-      });
     } else if (
       event.text.match(hackNightRegex) &&
       !event.text.includes("thanks for joining us at Hack Night")
