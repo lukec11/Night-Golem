@@ -126,15 +126,16 @@ slackEvents.on("message", async (event) => {
       if (event.username.includes("Night Golem")) {
         throw "OtherNightGolemError";
       }
-    } if (bannedCombos.includes(event.text.toLowerCase())) {
-      const nextHackNight = nextDate();
-      const message = `<@${event.user}>, let's keep this space friendly.`;
-      await sendPublicReply(event, message);
-    } else if (
+    } if (
       event.text.match(hackNightRegex) &&
       !event.text.includes("thanks for joining us at Hack Night")
     ) {
       let textMatch = hackNightRegex.exec(event.text);
+      if (bannedCombos.includes(textMatch.toLowerCase()) {
+        const nextHackNight = nextDate();
+        const message = `<@${event.user}>, let's keep this space friendly.`;
+        await sendPublicReply(event, message);
+        return 
       const nextHackNight = nextDate();
       const message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty}|date>*, at *<!date^${nextHackNight}^{time}|time>* local time!`;
 
