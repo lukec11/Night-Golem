@@ -10,7 +10,8 @@ const forceTopicUpdateRegex = /forceChannelUpdate/gi;
 const bannedCombos = [
   'hot nut',
   'shrek nut',
-  'hickey nut'
+  'hickey nut',
+  'crap nut'
   ]
 
 /**
