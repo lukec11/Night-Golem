@@ -7,6 +7,12 @@ const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 const hackNightRegex = /next ((?:s?hr?|cr|u|o)(?:e|a|i|o|u)?c?o?w?(?:k|c|p|t|oo?|u(?:t|p)?)(?:e|a)?(?:s|y|lacka)?(?:\s|-)?(?:n|b)?(?:e|i|oo?|a)?u?(?:k|w|g|c|o|t)?k?a?(?:ey|ht|ky|e|t|wu|o(?:p|t)?|lacka))/gi;
 const forceTopicUpdateRegex = /forceChannelUpdate/gi;
 
+const bannedCombos = [
+  'next hot nut',
+  'next shrek nut',
+  'next hickey nut'
+  ]
+
 /**
  * Checks whether $n is between $start and $end, inclusive.
  * @param {int} n - number to compare
@@ -120,7 +126,7 @@ slackEvents.on("message", async (event) => {
       if (event.username.includes("Night Golem")) {
         throw "OtherNightGolemError";
       }
-    } else if (event.text.toLowerCase().includes("next hot nut")) {
+    } else if (bannedCombos.includes(event.text.toLowerCase()) {
       const nextHackNight = nextDate();
       const message = `<@${event.user}>, let's keep this space friendly.`;
       await sendPublicReply(event, message);
