@@ -126,7 +126,7 @@ slackEvents.on("message", async (event) => {
       if (event.username.includes("Night Golem")) {
         throw "OtherNightGolemError";
       }
-    } else if (bannedCombos.includes(event.text.toLowerCase()) {
+    } else if (bannedCombos.includes(event.text.toLowerCase())) {
       const nextHackNight = nextDate();
       const message = `<@${event.user}>, let's keep this space friendly.`;
       await sendPublicReply(event, message);
