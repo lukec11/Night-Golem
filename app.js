@@ -131,7 +131,7 @@ slackEvents.on("message", async (event) => {
       !event.text.includes("thanks for joining us at Hack Night")
     ) {
       let textMatch = hackNightRegex.exec(event.text);
-      if (bannedCombos.includes(textMatch.toLowerCase()) {
+      if (bannedCombos.includes(textMatch.toLowerCase())) {
         const nextHackNight = nextDate();
         const message = `<@${event.user}>, let's keep this space friendly.`;
         await sendPublicReply(event, message);
