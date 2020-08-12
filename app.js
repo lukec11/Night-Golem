@@ -134,7 +134,8 @@ slackEvents.on("message", async (event) => {
       if (bannedCombos.includes(textMatch.toLowerCase())) {
         const message = `<@${event.user}>, let's keep this space friendly.`;
         await sendPublicReply(event, message);
-        return 
+        throw 'UserBanned'
+      }
       const nextHackNight = nextDate();
       const message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty}|date>*, at *<!date^${nextHackNight}^{time}|time>* local time!`;
 
