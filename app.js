@@ -8,9 +8,9 @@ const hackNightRegex = /next ((?:s?hr?|cr|u|o)(?:e|a|i|o|u)?c?o?w?(?:k|c|p|t|oo?
 const forceTopicUpdateRegex = /forceChannelUpdate/gi;
 
 const bannedCombos = [
-  'next hot nut',
-  'next shrek nut',
-  'next hickey nut'
+  'hot nut',
+  'shrek nut',
+  'hickey nut'
   ]
 
 /**
@@ -132,7 +132,6 @@ slackEvents.on("message", async (event) => {
     ) {
       let textMatch = hackNightRegex.exec(event.text);
       if (bannedCombos.includes(textMatch.toLowerCase())) {
-        const nextHackNight = nextDate();
         const message = `<@${event.user}>, let's keep this space friendly.`;
         await sendPublicReply(event, message);
         return 
