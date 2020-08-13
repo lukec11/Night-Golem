@@ -11,7 +11,8 @@ const bannedCombos = [
   'hot nut',
   'shrek nut',
   'hickey nut',
-  'crap nut'
+  'crap nut',
+  'hoe nut'
   ]
 
 /**
