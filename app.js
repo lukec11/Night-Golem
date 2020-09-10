@@ -33,6 +33,10 @@ slackEvents.on('message', async (event) => {
         console.debug('Not responding to a topic change message.');
         return;
       }
+      if (event.subtype === ('message_deleted' || 'message_edited')) {
+        console.debug('Not responding to an edited/deleted message');
+        return;
+      }
     }
 
     /* Delete channel topic setting messages */
