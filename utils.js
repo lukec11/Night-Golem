@@ -157,11 +157,12 @@ const setTopic = async (channel, text) => {
  */
 const deleteMessage = async (channel, ts) => {
   try {
-  await wc.chat.delete({
-    token: ADMIN_TOKEN,
-    channel: channel,
-    ts: ts
-  }); } catch (err) {
+    await wc.chat.delete({
+      token: ADMIN_TOKEN,
+      channel: channel,
+      ts: ts
+    });
+  } catch (err) {
     console.error(err);
   }
 };
