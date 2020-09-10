@@ -28,16 +28,15 @@ slackEvents.on('message', async (event) => {
       }
     }
 
-    /* Delete channel topic setting messages */
-    if (event.text.includes(`<@${BOT_USER_ID}> set the channel's topic:`)) {
-      console.debug('Deleting topic change message');
-      await deleteMessage(event.channel, event.ts);
-      return;
-    }
-
     /* Don't respond to messages setting channel/group topic */
     if (event.hasOwnProperty('subtype')) {
       if (event.subtype === ('channel_topic' || 'group_topic')) {
+        /* If it's night golem's topic, delete it. */
+        if (event.user === BOT_USER_ID) {
+          console.debug('Found golem channel topic message, deleting!');
+          await deleteMessage(event.channel, event.ts);
+          return;
+        }
         console.debug('Not responding to a topic change message.');
         return;
       }
