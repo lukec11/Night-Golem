@@ -9,7 +9,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@slack/events-api": "^2.3.3",
+    "@slack/events-api": "^2.3.4",
     "@slack/web-api": "^5.10.0",
     "dotenv": "^8.2.0"
   },
