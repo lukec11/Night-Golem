@@ -27,6 +27,14 @@ slackEvents.on('message', async (event) => {
         return;
       }
     }
+
+    /* Delete channel topic setting messages */
+    if (event.text.includes(`<@${BOT_USER_ID}> set the channel's topic:`)) {
+      console.debug('Deleting topic change message');
+      await deleteMessage(event.channel, event.ts);
+      return;
+    }
+
     /* Don't respond to messages setting channel/group topic */
     if (event.hasOwnProperty('subtype')) {
       if (event.subtype === ('channel_topic' || 'group_topic')) {
@@ -37,12 +45,6 @@ slackEvents.on('message', async (event) => {
         console.debug('Not responding to an edited/deleted message');
         return;
       }
-    }
-
-    /* Delete channel topic setting messages */
-    if (event.text.includes(`<@${BOT_USER_ID}> set the channel's topic:`)) {
-      console.debug('Deleting topic change message');
-      await deleteMessage(event.channel, event.ts);
     }
 
     /* Check for channel topic update requests */
