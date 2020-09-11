@@ -10,7 +10,7 @@
   "license": "MIT",
   "dependencies": {
     "@slack/events-api": "^2.3.4",
-    "@slack/web-api": "^5.10.0",
+    "@slack/web-api": "^5.11.0",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
