@@ -16,8 +16,11 @@ ENV NODE_ENV=production
 # Installing the project dependencies
 RUN npm install
 
-# Starting the pm2 process and keeping the docker container alive
-CMD npm start
+# Building the project
+RUN npm run build
+
+# Start 
+CMD npm run start
 
 # Exposing the RestAPI port
 EXPOSE 3000

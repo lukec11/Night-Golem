@@ -4,7 +4,11 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "dev": "nodemon --exec babel-node src/app.js --trace-warnings",
+    "clean": "rm -rf ./build",
+    "babel-build": "babel src --out-dir build --source-maps",
+    "build": "npm run clean; npm run babel-build",
+    "start": "node build/app.js"
   },
   "author": "",
   "license": "MIT",
@@ -14,6 +18,12 @@
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@babel/core": "^7.11.6",
+    "@babel/node": "^7.10.5",
+    "@babel/plugin-transform-runtime": "^7.11.5",
+    "@babel/preset-env": "^7.11.5",
+    "eslint": "^7.9.0",
     "nodemon": "^2.0.4"
   }
 }

@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 /* Pull in constants */
-const { wc, bannedCombos, hackNightRegex } = require('./constants.js');
+import { wc, bannedCombos, hackNightRegex } from './constants.js';
 
 /* Pull env vars */
 const {
@@ -155,7 +155,7 @@ const setTopic = async (channel, text) => {
  * @param {String} channel - channel of the message
  * @param {String} ts - full timestamp of the message
  */
-const deleteMessage = async (channel, ts) => {
+export const deleteMessage = async (channel, ts) => {
   try {
     await wc.chat.delete({
       token: ADMIN_TOKEN,
@@ -191,7 +191,7 @@ const checkBan = async (event) => {
  * Checks an event to see if it was a channel topic update request
  * @param {Event} event
  */
-const checkTopicUpdate = async (event) => {
+export const checkTopicUpdate = async (event) => {
   try {
     let topic;
     /* Check if Hack Night is currently happening */
@@ -231,7 +231,7 @@ const titleCase = (str) => {
  * Generates a message to reply to a user
  * @param {Event} event | A slack 'message' event to reply to
  */
-const genTimeMessage = async (event) => {
+export const genTimeMessage = async (event) => {
   try {
     /* Check if this includes banned keywords */
     if (await checkBan(event)) {
@@ -247,25 +247,10 @@ const genTimeMessage = async (event) => {
       )}_ is happening right now, what are you still doing here!? <https://hack.af/night|Join the call!>`;
     } else {
       const nextHackNight = nextDate();
-      message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty} at {time}|${EASTER_EGG}>*. See you there!`;
+      message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty} at {time}|${EASTER_EGG}>* your time. See you there!`;
     }
     await sendPublicReply(event, message);
   } catch (err) {
     console.error(err);
   }
-};
-
-module.exports = {
-  inRange,
-  setTime,
-  getSeconds,
-  happeningNow,
-  nextDate,
-  sendPublicReply,
-  sendReaction,
-  setTopic,
-  deleteMessage,
-  checkBan,
-  checkTopicUpdate,
-  genTimeMessage
 };
