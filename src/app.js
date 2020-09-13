@@ -1,16 +1,12 @@
 /* Bring in utils */
-const {
-  deleteMessage,
-  checkTopicUpdate,
-  genTimeMessage
-} = require('./utils.js');
+import { deleteMessage, checkTopicUpdate, genTimeMessage } from './utils.js';
 
 /* Bring in constants */
-const {
+import {
   slackEvents,
   forceTopicUpdateRegex,
   hackNightRegex
-} = require('./constants.js');
+} from './constants.js';
 
 /* Bring in env vars */
 const { BOT_USER_ID, PORT } = process.env;
