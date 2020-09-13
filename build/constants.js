@@ -1,27 +1,34 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports.forceTopicUpdateRegex = exports.hackNightRegex = exports.bannedCombos = exports.slackEvents = exports.wc = void 0;
 
-var _webApi = require("@slack/web-api");
+var _webApi = require('@slack/web-api');
 
-var _eventsApi = require("@slack/events-api");
+var _eventsApi = require('@slack/events-api');
 
 require('dotenv').config();
 /* Initialize Slack WebClient */
-
 
 var wc = new _webApi.WebClient(process.env.SLACK_TOKEN);
 /* Initialize Slack Events API */
 
 exports.wc = wc;
-var slackEvents = (0, _eventsApi.createEventAdapter)(process.env.SLACK_SIGNING_SECRET);
+var slackEvents = (0, _eventsApi.createEventAdapter)(
+  process.env.SLACK_SIGNING_SECRET
+);
 /* Manually banned word combos that would otherwise fit in the regex */
 
 exports.slackEvents = slackEvents;
-var bannedCombos = ['hot nut', 'shrek nut', 'hickey nut', 'crap nut', 'hoe nut'];
+var bannedCombos = [
+  'hot nut',
+  'shrek nut',
+  'hickey nut',
+  'crap nut',
+  'hoe nut'
+];
 /* Regex for "Next hack night" alternates */
 
 exports.bannedCombos = bannedCombos;
