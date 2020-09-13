@@ -16,9 +16,6 @@ ENV NODE_ENV=production
 # Installing the project dependencies
 RUN npm install
 
-# Building the project
-RUN npm run build
-
 # Start 
 CMD npm run start
 
