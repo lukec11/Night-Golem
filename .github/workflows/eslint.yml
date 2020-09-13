@@ -25,4 +25,4 @@ jobs:
         env:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Run ESLint
-        run: eslint ./build --ext .js
+        run: ./node_modules/.bin/eslint . --ext .js
