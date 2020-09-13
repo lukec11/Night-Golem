@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon --exec babel-node src/app.js --trace-warnings",
     "clean": "rm -rf ./build",
-    "babel-build": "babel src --out-dir build --source-maps",
+    "babel-build": "./node_modules/.bin/babel src --out-dir build --source-maps",
     "build": "npm run clean; npm run babel-build",
     "start": "node build/app.js"
   },
