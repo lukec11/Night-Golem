@@ -247,7 +247,7 @@ const genTimeMessage = async (event) => {
       )}_ is happening right now, what are you still doing here!? <https://hack.af/night|Join the call!>`;
     } else {
       const nextHackNight = nextDate();
-      message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty} at {time}|${EASTER_EGG}>*. See you there!`;
+      message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty} at {time}|${EASTER_EGG}>* your time. See you there!`;
     }
     await sendPublicReply(event, message);
   } catch (err) {
