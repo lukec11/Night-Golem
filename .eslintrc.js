@@ -11,5 +11,6 @@ module.exports = {
   },
   rules: {
     'no-prototype-builtins': 'off'
-  }
+  },
+  ignorePatterns: ['build/**/*']
 };
