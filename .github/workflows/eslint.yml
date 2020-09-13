@@ -1,15 +1,28 @@
 name: ESLint
 
-on: pull_request
+# This action works with pull requests and pushes
+on:
+  pull_request:
+  push:
+    branches:
+      - master
 
 jobs:
-  eslint:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: hallee/eslint-action@1.0.3
-        # GITHUB_TOKEN in forked repositories is read-only
-        # https://help.github.com/en/actions/reference/events-that-trigger-workflows#pull-request-event-pull_request
-        if: ${{ github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository }} 
+      - name: Checkout
+        uses: actions/checkout@v2
         with:
-          repo-token: ${{secrets.GITHUB_TOKEN}}
+          ref: ${{ github.head_ref }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Install modules
+        run: npm install
+        env:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build modules
+        run: npm run build
+        env:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Run ESLint
+        run: eslint ./build --ext .js
