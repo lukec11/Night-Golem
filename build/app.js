@@ -13,13 +13,30 @@ var _init = require("./init.js");
 /* Bring in utils */
 
 /* Bring in constants */
+// app.use(async ({ payload, next }) => {
+//   console.log('f');
+//   console.log(payload);
+//   await next();
+// });
+
+/* Use bolt's subtype middleware */
 
 /* Listen for messages calling "next hack night" */
 _init.app.message(_init.hackNightRegex, _utils.sendTimeMessage);
-/* Listen for messages calling for a channel topic update */
+/* Listen for messages calling for a forced update */
 
 
 _init.app.message(_init.forceTopicUpdateRegex, _utils.forceTopicUpdate);
+/* Listen for a topic update message */
+
+
+_init.app.message(_init.topicUpdateRegex, _utils.checkTopicUpdater);
+/* Listen for errors */
+
+
+_init.app.error(function (err) {
+  console.error(err);
+});
 
 (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
   return _regenerator["default"].wrap(function _callee$(_context) {

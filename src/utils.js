@@ -1,7 +1,7 @@
 require('dotenv').config();
 
 /* Pull in constants */
-import { app, bannedCombos, hackNightRegex } from './init.js';
+import { app, bannedCombos, hackNightRegex, topicUpdateRegex } from './init.js';
 
 /* Pull env vars */
 const {
@@ -293,6 +293,31 @@ export const sendTimeMessage = async ({ payload }) => {
  * @param {Object} payload | "message" event payload from bolt
  */
 export const forceTopicUpdate = async ({ payload }) => {
-  console.debug('Updating the channel topic');
-  await checkTopicUpdate(payload);
+  try {
+    console.debug('Updating the channel topic');
+    await checkTopicUpdate(payload);
+  } catch (err) {
+    console.error('it broke!');
+    console.error(err);
+  }
+};
+
+/**
+ * Checks to see whether a channel topic update was night golem
+ * @param {Object} payload | "message" event payload from bolt
+ */
+export const checkTopicUpdater = async ({ payload }) => {
+  try {
+    const match = payload.text.match(topicUpdateRegex);
+    /* Return instantly if no match */
+    if (!match) {
+      return;
+    }
+
+    if (match[1] === BOT_USER_ID) {
+      await deleteMessage(payload.channel, payload.ts);
+    }
+  } catch (err) {
+    console.error(err);
+  }
 };
