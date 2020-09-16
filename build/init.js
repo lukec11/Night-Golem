@@ -1,17 +1,17 @@
-"use strict";
+'use strict';
 
-Object.defineProperty(exports, "__esModule", {
+Object.defineProperty(exports, '__esModule', {
   value: true
 });
 exports.forceTopicUpdateRegex = exports.hackNightRegex = exports.bannedCombos = exports.app = void 0;
 
-require("dotenv/config");
+require('dotenv/config');
 
-var _bolt = require("@slack/bolt");
+var _bolt = require('@slack/bolt');
 
 var _process$env = process.env,
-    SLACK_TOKEN = _process$env.SLACK_TOKEN,
-    SLACK_SIGNING_SECRET = _process$env.SLACK_SIGNING_SECRET;
+  SLACK_TOKEN = _process$env.SLACK_TOKEN,
+  SLACK_SIGNING_SECRET = _process$env.SLACK_SIGNING_SECRET;
 /* Initialize Bolt.js */
 
 var app = new _bolt.App({
@@ -21,7 +21,13 @@ var app = new _bolt.App({
 /* Manually banned word combos that would otherwise fit in the regex */
 
 exports.app = app;
-var bannedCombos = ['hot nut', 'shrek nut', 'hickey nut', 'crap nut', 'hoe nut'];
+var bannedCombos = [
+  'hot nut',
+  'shrek nut',
+  'hickey nut',
+  'crap nut',
+  'hoe nut'
+];
 /* Regex for "Next hack night" alternates */
 
 exports.bannedCombos = bannedCombos;
