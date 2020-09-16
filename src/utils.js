@@ -1,14 +1,14 @@
 require('dotenv').config();
 
 /* Pull in constants */
-import { wc, bannedCombos, hackNightRegex } from './constants.js';
+import { app, bannedCombos, hackNightRegex } from './init.js';
 
 /* Pull env vars */
 const {
   SLACK_TOKEN,
   ADMIN_TOKEN,
-  EASTER_EGG,
-  HACK_NIGHT_CHANNEL
+  HACK_NIGHT_CHANNEL,
+  BOT_USER_ID
 } = process.env;
 
 /**
@@ -104,7 +104,7 @@ const nextDate = () => {
  */
 const sendPublicReply = async (event, message) => {
   try {
-    await wc.chat.postMessage({
+    await app.client.chat.postMessage({
       channel: event.channel,
       token: SLACK_TOKEN,
       text: message,
@@ -122,7 +122,7 @@ const sendPublicReply = async (event, message) => {
  */
 const sendReaction = async (event, reaction) => {
   try {
-    await wc.reactions.add({
+    await app.client.reactions.add({
       token: SLACK_TOKEN,
       channel: event.channel,
       name: reaction,
@@ -140,7 +140,7 @@ const sendReaction = async (event, reaction) => {
  */
 const setTopic = async (channel, text) => {
   try {
-    await wc.conversations.setTopic({
+    await app.client.conversations.setTopic({
       token: SLACK_TOKEN,
       channel: channel,
       topic: text
@@ -155,9 +155,9 @@ const setTopic = async (channel, text) => {
  * @param {String} channel - channel of the message
  * @param {String} ts - full timestamp of the message
  */
-export const deleteMessage = async (channel, ts) => {
+const deleteMessage = async (channel, ts) => {
   try {
-    await wc.chat.delete({
+    await app.client.chat.delete({
       token: ADMIN_TOKEN,
       channel: channel,
       ts: ts
@@ -215,23 +215,18 @@ export const checkTopicUpdate = async (event) => {
  * @param {String} str | String to make Title Case
  */
 const titleCase = (str) => {
-  try {
-    let split = str.toLowerCase().split(' ');
-    for (let i = 0; i < split.length; i++) {
-      split[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
-    }
-    return split.join(' ');
-  } catch (err) {
-    console.error('Somehow, you fucked up the most basic function in here.');
-    console.error(err);
+  let split = str.toLowerCase().split(' ');
+  for (let i = 0; i < split.length; i++) {
+    split[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
   }
+  return split.join(' ');
 };
 
 /**
  * Generates a message to reply to a user
  * @param {Event} event | A slack 'message' event to reply to
  */
-export const genTimeMessage = async (event) => {
+const genTimeMessage = async (event) => {
   try {
     /* Check if this includes banned keywords */
     if (await checkBan(event)) {
@@ -247,10 +242,57 @@ export const genTimeMessage = async (event) => {
       )}_ is happening right now, what are you still doing here!? <https://hack.af/night|Join the call!>`;
     } else {
       const nextHackNight = nextDate();
-      message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty} at {time}|${EASTER_EGG}>* your time. See you there!`;
+      message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty} at {time}|[Open Slack To View]>* your time. See you there!`;
     }
     await sendPublicReply(event, message);
   } catch (err) {
     console.error(err);
   }
+};
+
+/**
+ * Handler function for "next hack night" messages
+ * @param {Object} payload | "message" event payload from bolt
+ */
+export const sendTimeMessage = async ({ payload }) => {
+  try {
+    /* Check if it's the zap golem and ignore it */
+    if (payload.hasOwnProperty('username')) {
+      if (payload.username.includes('Night Golem')) {
+        console.debug('Found zap golem!');
+        return;
+      }
+    }
+    /* Don't respond to messages setting channel/group topic */
+    if (payload.hasOwnProperty('subtype')) {
+      if (payload.subtype === ('channel_topic' || 'group_topic')) {
+        /* If it's night golem's topic, delete it. */
+        if (payload.user === BOT_USER_ID) {
+          console.debug('Found golem channel topic message, deleting!');
+          await deleteMessage(payload.channel, payload.ts);
+          return;
+        }
+        console.debug('Not responding to a topic change message.');
+        return;
+      }
+      if (payload.subtype === ('message_deleted' || 'message_edited')) {
+        console.debug('Not responding to an edited/deleted message');
+        return;
+      }
+    }
+
+    /* Looks like it's fine, go ahead and post the message. */
+    await genTimeMessage(payload);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+/**
+ * Handler function for "Force topic update" messages
+ * @param {Object} payload | "message" event payload from bolt
+ */
+export const forceTopicUpdate = async ({ payload }) => {
+  console.debug('Updating the channel topic');
+  await checkTopicUpdate(payload);
 };
