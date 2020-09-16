@@ -1,13 +1,12 @@
 require('dotenv').config();
 
 /* Pull in constants */
-import { app, bannedCombos, hackNightRegex } from './constants.js';
+import { app, bannedCombos, hackNightRegex } from './init.js';
 
 /* Pull env vars */
 const {
   SLACK_TOKEN,
   ADMIN_TOKEN,
-  EASTER_EGG,
   HACK_NIGHT_CHANNEL,
   BOT_USER_ID
 } = process.env;
@@ -156,7 +155,7 @@ const setTopic = async (channel, text) => {
  * @param {String} channel - channel of the message
  * @param {String} ts - full timestamp of the message
  */
-export const deleteMessage = async (channel, ts) => {
+const deleteMessage = async (channel, ts) => {
   try {
     await app.client.chat.delete({
       token: ADMIN_TOKEN,
@@ -216,23 +215,18 @@ export const checkTopicUpdate = async (event) => {
  * @param {String} str | String to make Title Case
  */
 const titleCase = (str) => {
-  try {
-    let split = str.toLowerCase().split(' ');
-    for (let i = 0; i < split.length; i++) {
-      split[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
-    }
-    return split.join(' ');
-  } catch (err) {
-    console.error('Somehow, you fucked up the most basic function in here.');
-    console.error(err);
+  let split = str.toLowerCase().split(' ');
+  for (let i = 0; i < split.length; i++) {
+    split[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
   }
+  return split.join(' ');
 };
 
 /**
  * Generates a message to reply to a user
  * @param {Event} event | A slack 'message' event to reply to
  */
-export const genTimeMessage = async (event) => {
+const genTimeMessage = async (event) => {
   try {
     /* Check if this includes banned keywords */
     if (await checkBan(event)) {
@@ -248,7 +242,7 @@ export const genTimeMessage = async (event) => {
       )}_ is happening right now, what are you still doing here!? <https://hack.af/night|Join the call!>`;
     } else {
       const nextHackNight = nextDate();
-      message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty} at {time}|${EASTER_EGG}>* your time. See you there!`;
+      message = `The next _${textMatch[1]}_ is *<!date^${nextHackNight}^{date_short_pretty} at {time}|[Open Slack To View]>* your time. See you there!`;
     }
     await sendPublicReply(event, message);
   } catch (err) {
@@ -256,6 +250,10 @@ export const genTimeMessage = async (event) => {
   }
 };
 
+/**
+ * Handler function for "next hack night" messages
+ * @param {Object} payload | "message" event payload from bolt
+ */
 export const sendTimeMessage = async ({ payload }) => {
   try {
     /* Check if it's the zap golem and ignore it */
@@ -290,6 +288,10 @@ export const sendTimeMessage = async ({ payload }) => {
   }
 };
 
+/**
+ * Handler function for "Force topic update" messages
+ * @param {Object} payload | "message" event payload from bolt
+ */
 export const forceTopicUpdate = async ({ payload }) => {
   console.debug('Updating the channel topic');
   await checkTopicUpdate(payload);

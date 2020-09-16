@@ -1,16 +1,7 @@
 import 'dotenv/config';
 const { SLACK_TOKEN, SLACK_SIGNING_SECRET } = process.env;
 
-/* Initialize Slack WebClient */
-//import { WebClient } from '@slack/web-api';
-//export const wc = new WebClient(process.env.SLACK_TOKEN);
-
-/* Initialize Slack Events API */
-//import { createEventAdapter } from '@slack/events-api';
-//export const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
-
 /* Initialize Bolt.js */
-
 import { App } from '@slack/bolt';
 
 export const app = new App({

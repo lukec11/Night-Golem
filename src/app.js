@@ -2,9 +2,7 @@
 import { sendTimeMessage, forceTopicUpdate } from './utils.js';
 
 /* Bring in constants */
-import { app, forceTopicUpdateRegex, hackNightRegex } from './constants.js';
-
-/* Bring in env vars */
+import { app, forceTopicUpdateRegex, hackNightRegex } from './init.js';
 
 /**
  * Listener for new messages to the bot calling for "next hack night"

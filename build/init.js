@@ -12,14 +12,6 @@ var _bolt = require("@slack/bolt");
 var _process$env = process.env,
     SLACK_TOKEN = _process$env.SLACK_TOKEN,
     SLACK_SIGNING_SECRET = _process$env.SLACK_SIGNING_SECRET;
-/* Initialize Slack WebClient */
-//import { WebClient } from '@slack/web-api';
-//export const wc = new WebClient(process.env.SLACK_TOKEN);
-
-/* Initialize Slack Events API */
-//import { createEventAdapter } from '@slack/events-api';
-//export const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
-
 /* Initialize Bolt.js */
 
 var app = new _bolt.App({
@@ -39,4 +31,4 @@ var hackNightRegex = /next ((?:s?hr?|cr|u|o)(?:e|a|i|o|u)?c?o?w?(?:k|c|p|t|oo?|u
 exports.hackNightRegex = hackNightRegex;
 var forceTopicUpdateRegex = /forceChannelUpdate/gi;
 exports.forceTopicUpdateRegex = forceTopicUpdateRegex;
-//# sourceMappingURL=constants.js.map
+//# sourceMappingURL=init.js.map

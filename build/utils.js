@@ -5,13 +5,13 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.forceTopicUpdate = exports.sendTimeMessage = exports.genTimeMessage = exports.checkTopicUpdate = exports.deleteMessage = void 0;
+exports.forceTopicUpdate = exports.sendTimeMessage = exports.checkTopicUpdate = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
-var _constants = require("./constants.js");
+var _init = require("./init.js");
 
 require('dotenv').config();
 /* Pull in constants */
@@ -21,7 +21,6 @@ require('dotenv').config();
 var _process$env = process.env,
     SLACK_TOKEN = _process$env.SLACK_TOKEN,
     ADMIN_TOKEN = _process$env.ADMIN_TOKEN,
-    EASTER_EGG = _process$env.EASTER_EGG,
     HACK_NIGHT_CHANNEL = _process$env.HACK_NIGHT_CHANNEL,
     BOT_USER_ID = _process$env.BOT_USER_ID;
 /**
@@ -128,7 +127,7 @@ var sendPublicReply = /*#__PURE__*/function () {
           case 0:
             _context.prev = 0;
             _context.next = 3;
-            return _constants.app.client.chat.postMessage({
+            return _init.app.client.chat.postMessage({
               channel: event.channel,
               token: SLACK_TOKEN,
               text: message,
@@ -171,7 +170,7 @@ var sendReaction = /*#__PURE__*/function () {
           case 0:
             _context2.prev = 0;
             _context2.next = 3;
-            return _constants.app.client.reactions.add({
+            return _init.app.client.reactions.add({
               token: SLACK_TOKEN,
               channel: event.channel,
               name: reaction,
@@ -214,7 +213,7 @@ var setTopic = /*#__PURE__*/function () {
           case 0:
             _context3.prev = 0;
             _context3.next = 3;
-            return _constants.app.client.conversations.setTopic({
+            return _init.app.client.conversations.setTopic({
               token: SLACK_TOKEN,
               channel: channel,
               topic: text
@@ -256,7 +255,7 @@ var deleteMessage = /*#__PURE__*/function () {
           case 0:
             _context4.prev = 0;
             _context4.next = 3;
-            return _constants.app.client.chat["delete"]({
+            return _init.app.client.chat["delete"]({
               token: ADMIN_TOKEN,
               channel: channel,
               ts: ts
@@ -284,8 +283,6 @@ var deleteMessage = /*#__PURE__*/function () {
   };
 }();
 
-exports.deleteMessage = deleteMessage;
-
 var checkBan = /*#__PURE__*/function () {
   var _ref5 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(event) {
     var textMatch;
@@ -294,9 +291,9 @@ var checkBan = /*#__PURE__*/function () {
         switch (_context5.prev = _context5.next) {
           case 0:
             _context5.prev = 0;
-            textMatch = _constants.hackNightRegex.exec(event.text);
+            textMatch = _init.hackNightRegex.exec(event.text);
 
-            if (!_constants.bannedCombos.includes(textMatch[1].toLowerCase())) {
+            if (!_init.bannedCombos.includes(textMatch[1].toLowerCase())) {
               _context5.next = 7;
               break;
             }
@@ -389,18 +386,13 @@ var checkTopicUpdate = /*#__PURE__*/function () {
 exports.checkTopicUpdate = checkTopicUpdate;
 
 var titleCase = function titleCase(str) {
-  try {
-    var split = str.toLowerCase().split(' ');
+  var split = str.toLowerCase().split(' ');
 
-    for (var i = 0; i < split.length; i++) {
-      split[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
-    }
-
-    return split.join(' ');
-  } catch (err) {
-    console.error('Somehow, you fucked up the most basic function in here.');
-    console.error(err);
+  for (var i = 0; i < split.length; i++) {
+    split[i] = split[i].charAt(0).toUpperCase() + split[i].substring(1);
   }
+
+  return split.join(' ');
 };
 /**
  * Generates a message to reply to a user
@@ -428,13 +420,13 @@ var genTimeMessage = /*#__PURE__*/function () {
             return _context7.abrupt("return");
 
           case 5:
-            textMatch = event.text.match(_constants.hackNightRegex);
+            textMatch = event.text.match(_init.hackNightRegex);
 
             if (happeningNow()) {
               message = "_".concat(titleCase(textMatch[1]), "_ is happening right now, what are you still doing here!? <https://hack.af/night|Join the call!>");
             } else {
               nextHackNight = nextDate();
-              message = "The next _".concat(textMatch[1], "_ is *<!date^").concat(nextHackNight, "^{date_short_pretty} at {time}|").concat(EASTER_EGG, ">* your time. See you there!");
+              message = "The next _".concat(textMatch[1], "_ is *<!date^").concat(nextHackNight, "^{date_short_pretty} at {time}|[Open Slack To View]>* your time. See you there!");
             }
 
             _context7.next = 9;
@@ -461,8 +453,11 @@ var genTimeMessage = /*#__PURE__*/function () {
     return _ref7.apply(this, arguments);
   };
 }();
+/**
+ * Handler function for "next hack night" messages
+ * @param {Object} payload | "message" event payload from bolt
+ */
 
-exports.genTimeMessage = genTimeMessage;
 
 var sendTimeMessage = /*#__PURE__*/function () {
   var _ref9 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(_ref8) {
@@ -548,6 +543,11 @@ var sendTimeMessage = /*#__PURE__*/function () {
     return _ref9.apply(this, arguments);
   };
 }();
+/**
+ * Handler function for "Force topic update" messages
+ * @param {Object} payload | "message" event payload from bolt
+ */
+
 
 exports.sendTimeMessage = sendTimeMessage;
 
