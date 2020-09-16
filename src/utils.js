@@ -1,14 +1,15 @@
 require('dotenv').config();
 
 /* Pull in constants */
-import { wc, bannedCombos, hackNightRegex } from './constants.js';
+import { app, bannedCombos, hackNightRegex } from './constants.js';
 
 /* Pull env vars */
 const {
   SLACK_TOKEN,
   ADMIN_TOKEN,
   EASTER_EGG,
-  HACK_NIGHT_CHANNEL
+  HACK_NIGHT_CHANNEL,
+  BOT_USER_ID
 } = process.env;
 
 /**
@@ -104,7 +105,7 @@ const nextDate = () => {
  */
 const sendPublicReply = async (event, message) => {
   try {
-    await wc.chat.postMessage({
+    await app.client.chat.postMessage({
       channel: event.channel,
       token: SLACK_TOKEN,
       text: message,
@@ -122,7 +123,7 @@ const sendPublicReply = async (event, message) => {
  */
 const sendReaction = async (event, reaction) => {
   try {
-    await wc.reactions.add({
+    await app.client.reactions.add({
       token: SLACK_TOKEN,
       channel: event.channel,
       name: reaction,
@@ -140,7 +141,7 @@ const sendReaction = async (event, reaction) => {
  */
 const setTopic = async (channel, text) => {
   try {
-    await wc.conversations.setTopic({
+    await app.client.conversations.setTopic({
       token: SLACK_TOKEN,
       channel: channel,
       topic: text
@@ -157,7 +158,7 @@ const setTopic = async (channel, text) => {
  */
 export const deleteMessage = async (channel, ts) => {
   try {
-    await wc.chat.delete({
+    await app.client.chat.delete({
       token: ADMIN_TOKEN,
       channel: channel,
       ts: ts
@@ -253,4 +254,43 @@ export const genTimeMessage = async (event) => {
   } catch (err) {
     console.error(err);
   }
+};
+
+export const sendTimeMessage = async ({ payload }) => {
+  try {
+    /* Check if it's the zap golem and ignore it */
+    if (payload.hasOwnProperty('username')) {
+      if (payload.username.includes('Night Golem')) {
+        console.debug('Found zap golem!');
+        return;
+      }
+    }
+    /* Don't respond to messages setting channel/group topic */
+    if (payload.hasOwnProperty('subtype')) {
+      if (payload.subtype === ('channel_topic' || 'group_topic')) {
+        /* If it's night golem's topic, delete it. */
+        if (payload.user === BOT_USER_ID) {
+          console.debug('Found golem channel topic message, deleting!');
+          await deleteMessage(payload.channel, payload.ts);
+          return;
+        }
+        console.debug('Not responding to a topic change message.');
+        return;
+      }
+      if (payload.subtype === ('message_deleted' || 'message_edited')) {
+        console.debug('Not responding to an edited/deleted message');
+        return;
+      }
+    }
+
+    /* Looks like it's fine, go ahead and post the message. */
+    await genTimeMessage(payload);
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const forceTopicUpdate = async ({ payload }) => {
+  console.debug('Updating the channel topic');
+  await checkTopicUpdate(payload);
 };

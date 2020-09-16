@@ -1,34 +1,35 @@
-'use strict';
+"use strict";
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.forceTopicUpdateRegex = exports.hackNightRegex = exports.bannedCombos = exports.slackEvents = exports.wc = void 0;
+exports.forceTopicUpdateRegex = exports.hackNightRegex = exports.bannedCombos = exports.app = void 0;
 
-var _webApi = require('@slack/web-api');
+require("dotenv/config");
 
-var _eventsApi = require('@slack/events-api');
+var _bolt = require("@slack/bolt");
 
-require('dotenv').config();
+var _process$env = process.env,
+    SLACK_TOKEN = _process$env.SLACK_TOKEN,
+    SLACK_SIGNING_SECRET = _process$env.SLACK_SIGNING_SECRET;
 /* Initialize Slack WebClient */
+//import { WebClient } from '@slack/web-api';
+//export const wc = new WebClient(process.env.SLACK_TOKEN);
 
-var wc = new _webApi.WebClient(process.env.SLACK_TOKEN);
 /* Initialize Slack Events API */
+//import { createEventAdapter } from '@slack/events-api';
+//export const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
 
-exports.wc = wc;
-var slackEvents = (0, _eventsApi.createEventAdapter)(
-  process.env.SLACK_SIGNING_SECRET
-);
+/* Initialize Bolt.js */
+
+var app = new _bolt.App({
+  signingSecret: SLACK_SIGNING_SECRET,
+  token: SLACK_TOKEN
+});
 /* Manually banned word combos that would otherwise fit in the regex */
 
-exports.slackEvents = slackEvents;
-var bannedCombos = [
-  'hot nut',
-  'shrek nut',
-  'hickey nut',
-  'crap nut',
-  'hoe nut'
-];
+exports.app = app;
+var bannedCombos = ['hot nut', 'shrek nut', 'hickey nut', 'crap nut', 'hoe nut'];
 /* Regex for "Next hack night" alternates */
 
 exports.bannedCombos = bannedCombos;

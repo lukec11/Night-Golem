@@ -1,12 +1,22 @@
-require('dotenv').config();
+import 'dotenv/config';
+const { SLACK_TOKEN, SLACK_SIGNING_SECRET } = process.env;
 
 /* Initialize Slack WebClient */
-import { WebClient } from '@slack/web-api';
-export const wc = new WebClient(process.env.SLACK_TOKEN);
+//import { WebClient } from '@slack/web-api';
+//export const wc = new WebClient(process.env.SLACK_TOKEN);
 
 /* Initialize Slack Events API */
-import { createEventAdapter } from '@slack/events-api';
-export const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
+//import { createEventAdapter } from '@slack/events-api';
+//export const slackEvents = createEventAdapter(process.env.SLACK_SIGNING_SECRET);
+
+/* Initialize Bolt.js */
+
+import { App } from '@slack/bolt';
+
+export const app = new App({
+  signingSecret: SLACK_SIGNING_SECRET,
+  token: SLACK_TOKEN
+});
 
 /* Manually banned word combos that would otherwise fit in the regex */
 export const bannedCombos = [

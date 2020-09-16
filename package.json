@@ -14,8 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "@babel/runtime": "^7.11.2",
-    "@slack/events-api": "^2.3.4",
-    "@slack/web-api": "^5.11.0",
+    "@slack/bolt": "^2.3.0-workflowStepsBeta.1",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
