@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.forceTopicUpdateRegex = exports.hackNightRegex = exports.bannedCombos = exports.app = void 0;
+exports.topicUpdateRegex = exports.forceTopicUpdateRegex = exports.hackNightRegex = exports.bannedCombos = exports.app = void 0;
 
 require("dotenv/config");
 
@@ -16,7 +16,8 @@ var _process$env = process.env,
 
 var app = new _bolt.App({
   signingSecret: SLACK_SIGNING_SECRET,
-  token: SLACK_TOKEN
+  token: SLACK_TOKEN,
+  ignoreSelf: false
 });
 /* Manually banned word combos that would otherwise fit in the regex */
 
@@ -30,5 +31,9 @@ var hackNightRegex = /next ((?:s?hr?|cr|u|o)(?:e|a|i|o|u)?c?o?w?(?:k|c|p|t|oo?|u
 
 exports.hackNightRegex = hackNightRegex;
 var forceTopicUpdateRegex = /forceChannelUpdate/gi;
+/* Regex for the bot's channel topic update message */
+
 exports.forceTopicUpdateRegex = forceTopicUpdateRegex;
+var topicUpdateRegex = /<@([A-Z0-9]+)> set the channel's topic:/;
+exports.topicUpdateRegex = topicUpdateRegex;
 //# sourceMappingURL=init.js.map

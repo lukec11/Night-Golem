@@ -5,7 +5,7 @@ var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefau
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.forceTopicUpdate = exports.sendTimeMessage = exports.checkTopicUpdate = void 0;
+exports.checkTopicUpdater = exports.forceTopicUpdate = exports.sendTimeMessage = exports.checkTopicUpdate = void 0;
 
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
@@ -559,22 +559,90 @@ var forceTopicUpdate = /*#__PURE__*/function () {
         switch (_context9.prev = _context9.next) {
           case 0:
             payload = _ref10.payload;
+            _context9.prev = 1;
             console.debug('Updating the channel topic');
-            _context9.next = 4;
+            _context9.next = 5;
             return checkTopicUpdate(payload);
 
-          case 4:
+          case 5:
+            _context9.next = 11;
+            break;
+
+          case 7:
+            _context9.prev = 7;
+            _context9.t0 = _context9["catch"](1);
+            console.error('it broke!');
+            console.error(_context9.t0);
+
+          case 11:
           case "end":
             return _context9.stop();
         }
       }
-    }, _callee9);
+    }, _callee9, null, [[1, 7]]);
   }));
 
   return function forceTopicUpdate(_x13) {
     return _ref11.apply(this, arguments);
   };
 }();
+/**
+ * Checks to see whether a channel topic update was night golem
+ * @param {Object} param0
+ */
+
 
 exports.forceTopicUpdate = forceTopicUpdate;
+
+var checkTopicUpdater = /*#__PURE__*/function () {
+  var _ref13 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(_ref12) {
+    var payload, match;
+    return _regenerator["default"].wrap(function _callee10$(_context10) {
+      while (1) {
+        switch (_context10.prev = _context10.next) {
+          case 0:
+            payload = _ref12.payload;
+            _context10.prev = 1;
+            match = payload.text.match(_init.topicUpdateRegex);
+            /* Return instantly if no match */
+
+            if (match) {
+              _context10.next = 5;
+              break;
+            }
+
+            return _context10.abrupt("return");
+
+          case 5:
+            if (!(match[1] === BOT_USER_ID)) {
+              _context10.next = 8;
+              break;
+            }
+
+            _context10.next = 8;
+            return deleteMessage(payload.channel, payload.ts);
+
+          case 8:
+            _context10.next = 13;
+            break;
+
+          case 10:
+            _context10.prev = 10;
+            _context10.t0 = _context10["catch"](1);
+            console.error(_context10.t0);
+
+          case 13:
+          case "end":
+            return _context10.stop();
+        }
+      }
+    }, _callee10, null, [[1, 10]]);
+  }));
+
+  return function checkTopicUpdater(_x14) {
+    return _ref13.apply(this, arguments);
+  };
+}();
+
+exports.checkTopicUpdater = checkTopicUpdater;
 //# sourceMappingURL=utils.js.map
