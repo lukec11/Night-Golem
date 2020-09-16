@@ -34,6 +34,6 @@ var forceTopicUpdateRegex = /forceChannelUpdate/gi;
 /* Regex for the bot's channel topic update message */
 
 exports.forceTopicUpdateRegex = forceTopicUpdateRegex;
-var topicUpdateRegex = /<@([A-Z0-9]+)> set the channel's topic:/;
+var topicUpdateRegex = /<@([A-Z0-9]+)> set the channel(?:'s)? topic:/;
 exports.topicUpdateRegex = topicUpdateRegex;
 //# sourceMappingURL=init.js.map

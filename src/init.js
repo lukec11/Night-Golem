@@ -24,4 +24,4 @@ export const hackNightRegex = /next ((?:s?hr?|cr|u|o)(?:e|a|i|o|u)?c?o?w?(?:k|c|
 /* Regex to force a Channel Topic update */
 export const forceTopicUpdateRegex = /forceChannelUpdate/gi;
 /* Regex for the bot's channel topic update message */
-export const topicUpdateRegex = /<@([A-Z0-9]+)> set the channel's topic:/;
+export const topicUpdateRegex = /<@([A-Z0-9]+)> set the channel(?:'s)? topic:/;
