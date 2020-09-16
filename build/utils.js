@@ -588,7 +588,7 @@ var forceTopicUpdate = /*#__PURE__*/function () {
 }();
 /**
  * Checks to see whether a channel topic update was night golem
- * @param {Object} param0
+ * @param {Object} payload | "message" event payload from bolt
  */
 
 
@@ -604,39 +604,31 @@ var checkTopicUpdater = /*#__PURE__*/function () {
             payload = _ref12.payload;
             _context10.prev = 1;
             match = payload.text.match(_init.topicUpdateRegex);
-            /* Return instantly if no match */
+            console.log(match);
 
-            if (match) {
-              _context10.next = 5;
+            if (!(match[1] == BOT_USER_ID)) {
+              _context10.next = 7;
               break;
             }
 
-            return _context10.abrupt("return");
-
-          case 5:
-            if (!(match[1] === BOT_USER_ID)) {
-              _context10.next = 8;
-              break;
-            }
-
-            _context10.next = 8;
+            _context10.next = 7;
             return deleteMessage(payload.channel, payload.ts);
 
-          case 8:
-            _context10.next = 13;
+          case 7:
+            _context10.next = 12;
             break;
 
-          case 10:
-            _context10.prev = 10;
+          case 9:
+            _context10.prev = 9;
             _context10.t0 = _context10["catch"](1);
             console.error(_context10.t0);
 
-          case 13:
+          case 12:
           case "end":
             return _context10.stop();
         }
       }
-    }, _callee10, null, [[1, 10]]);
+    }, _callee10, null, [[1, 9]]);
   }));
 
   return function checkTopicUpdater(_x14) {

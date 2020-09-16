@@ -309,12 +309,9 @@ export const forceTopicUpdate = async ({ payload }) => {
 export const checkTopicUpdater = async ({ payload }) => {
   try {
     const match = payload.text.match(topicUpdateRegex);
-    /* Return instantly if no match */
-    if (!match) {
-      return;
-    }
+    console.log(match);
 
-    if (match[1] === BOT_USER_ID) {
+    if (match[1] == BOT_USER_ID) {
       await deleteMessage(payload.channel, payload.ts);
     }
   } catch (err) {

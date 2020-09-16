@@ -13,14 +13,6 @@ import {
   topicUpdateRegex
 } from './init.js';
 
-// app.use(async ({ payload, next }) => {
-//   console.log('f');
-//   console.log(payload);
-//   await next();
-// });
-
-/* Use bolt's subtype middleware */
-
 /* Listen for messages calling "next hack night" */
 app.message(hackNightRegex, sendTimeMessage);
 /* Listen for messages calling for a forced update */

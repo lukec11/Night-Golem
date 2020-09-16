@@ -13,13 +13,6 @@ var _init = require("./init.js");
 /* Bring in utils */
 
 /* Bring in constants */
-// app.use(async ({ payload, next }) => {
-//   console.log('f');
-//   console.log(payload);
-//   await next();
-// });
-
-/* Use bolt's subtype middleware */
 
 /* Listen for messages calling "next hack night" */
 _init.app.message(_init.hackNightRegex, _utils.sendTimeMessage);
