@@ -16,7 +16,8 @@ export const bannedCombos = [
   'shrek nut',
   'hickey nut',
   'crap nut',
-  'hoe nut'
+  'hoe nut',
+  'hot butt'
 ];
 
 /* Regex for "Next hack night" alternates */
