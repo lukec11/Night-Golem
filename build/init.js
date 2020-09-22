@@ -22,7 +22,7 @@ var app = new _bolt.App({
 /* Manually banned word combos that would otherwise fit in the regex */
 
 exports.app = app;
-var bannedCombos = ['hot nut', 'shrek nut', 'hickey nut', 'crap nut', 'hoe nut', 'hot butt', 'hot nutt'];
+var bannedCombos = ['hot nut', 'shrek nut', 'hickey nut', 'crap nut', 'hoe nut', 'hot butt', 'hot nutt', 'hoe nutt'];
 /* Regex for "Next hack night" alternates */
 
 exports.bannedCombos = bannedCombos;
