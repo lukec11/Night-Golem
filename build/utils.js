@@ -379,7 +379,7 @@ var checkTopicUpdate = /*#__PURE__*/function () {
 }();
 /**
  * Turns text title case
- * @param {String} str | String to make Title Case
+ * @param {String} str | String to make Title Cased
  */
 
 
@@ -396,7 +396,7 @@ var titleCase = function titleCase(str) {
 };
 /**
  * Generates a message to reply to a user
- * @param {Event} event | A slack 'message' event to reply to
+ * @param {Object} event | A bolt 'message' event to reply to
  */
 
 
