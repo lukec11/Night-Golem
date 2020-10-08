@@ -1,6 +1,11 @@
 # ---------- Base ----------
 FROM node:14-alpine AS base
 
+# Set timezone to US Eastern
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+
 WORKDIR /app
 
 # ---------- Builder ----------
@@ -27,7 +32,5 @@ COPY --from=builder /app/build ./build
 
 USER node
 
-ENV TZ=America/New_York
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 CMD ["node", "./build/app.js"]
