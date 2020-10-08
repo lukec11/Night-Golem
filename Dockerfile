@@ -27,4 +27,7 @@ COPY --from=builder /app/build ./build
 
 USER node
 
+ENV TZ=America/New_York
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 CMD ["node", "./build/app.js"]
